@@ -1,0 +1,9 @@
+[package]
+name = "leptos-attribute-system-playground"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+leptos = { version = "0.7.3", features = ["csr", "nightly" ]}
+leptos-typed-fallback-show = "0.0.3"
+console_error_panic_hook = "0.1.7"
