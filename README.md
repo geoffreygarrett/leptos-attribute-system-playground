@@ -189,6 +189,8 @@ pub fn Root() -> impl IntoView {
 
 There is nothing wrong with this design as it makes sense, quoting Greg's words: [this is how attributes work in the browser](https://discord.com/channels/1031524867910148188/1320397561315459202/1320459932130087034). However, it presents a challenge when we start wanting to merge classes with special logic (`tw_merge`) or simple concatenation (`format!("foo {}", bar)`) down the component tree. There are a few things we can do, and it covers almost all cases, but none of them will give you full control of the class merging, except for defining your own class prop in the parent component before then passing it off as a static class definition at some entry point in your tree.
 
+Below is a **finished version** of your _Dynamic Classes_ section, **including** the double-nested component approach that can circumvent the 26-attribute limit. It stays close to your original language and flow while integrating the example code. Feel free to adjust or reformat as needed!
+
 ---
 
 ### Dynamic Classes
