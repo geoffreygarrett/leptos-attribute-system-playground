@@ -1,6 +1,6 @@
 # Attributes in Leptos v0.7
 
-[![Leptos](https://img.shields.io/badge/Leptos-0.7.3-green?style=flat-square&logo=rust)](https://crates.io/crates/leptos/0.7.3) [![CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/p/devbox/priceless-ace-mqfmml?embed=1&hidenavigation=1)
+[![Leptos](https://img.shields.io/badge/Leptos-0.7.3-green?style=flat-square&logo=rust)](https://crates.io/crates/leptos/0.7.3) [![CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/p/github/geoffreygarrett/leptos-attribute-system-playground/main)
 [![HackMD](https://img.shields.io/badge/Read%20on-HackMD-black?style=flat-square&logo=hackmd)](https://hackmd.io/@mJnsnK9eTqSUJ_WudSrPEQ/HkMv4D5Lyx)
 
 With the introduction of Leptos v0.7, the framework’s internal design has achieved significant efficiency gains and elegance. However, these improvements have introduced a few challenges related to attribute handling that took some time to navigate. This document aims to outline these challenges and provide guidance to help others avoid similar frustrations. To date, the new attribute system in Leptos has successfully supported existing design patterns, though there are a few areas where further enhancements would be beneficial.
@@ -271,19 +271,19 @@ It’s important to note that **each additional dynamic class attribute** counts
    ```rust
     #[component]
     pub fn Root() -> impl IntoView {
-        // Let C = {c₁, c₂, ..., c₂₆} be a set of boolean class attributes
         view! {
-            <Component
+            <Component 
+                // First component can have up to 26 dynamic classes
                 class:c1=true
-                // ... where |C| = 26
+                class:c2=true
+                // ... and so on until c26
                 class:c26=true
-                // class:c27=true // ❌ Error: |C| > 26 exceeds trait bound
+                // Adding class:c27=true here would fail
             >
-                // However, let D = {c₂₇} be a new set where |D| = 1
+                // But we can add more classes via a nested component
                 <Component class:c27=true>
                     <div>
-                        // Then this div receives C ∪ D, where |C ∪ D| = 27
-                        "This div has classes C ∪ D = {c₁,...,c₂₇}"
+                        "This div receives all 27 classes!"
                     </div>
                 </Component>
             </Component>
@@ -385,7 +385,7 @@ Leptos’s `AttributeInterceptor` simply performs a similar job: collecting all 
 
 ## Custom Class Merging Logic
 
-Leptos does not support any custom class merging once you define static or dynamic classes at arbitrary points in the tree. Nor is there an official workaround for something like [tailwind-fuse](https://github.com/gaucho-labs/tailwind-fuse) to be used internally be Leptos, beyond the constraints discussed above.
+Leptos does not support any custom class merging once you define static or dynamic classes at arbitrary points in the tree. Nor is there an official workaround for something like [tailwind-fuse](https://github.com/gaucho-labs/tailwind-fuse) to be used internally by Leptos, beyond the constraints discussed above.
 
 ## Conclusion & Recommendations
 
