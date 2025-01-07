@@ -1,6 +1,7 @@
 # Attributes in Leptos v0.7
 
 [![Leptos](https://img.shields.io/badge/Leptos-0.7.3-green?style=flat-square&logo=rust)](https://crates.io/crates/leptos/0.7.3) [![CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/p/devbox/priceless-ace-mqfmml?embed=1&hidenavigation=1)
+[![HackMD](https://img.shields.io/badge/Read%20on-HackMD-black?style=flat-square&logo=hackmd)](https://hackmd.io/@mJnsnK9eTqSUJ_WudSrPEQ/HkMv4D5Lyx)
 
 With the introduction of Leptos v0.7, the framework’s internal design has achieved significant efficiency gains and elegance. However, these improvements have introduced a few challenges related to attribute handling that took some time to navigate. This document aims to outline these challenges and provide guidance to help others avoid similar frustrations. To date, the new attribute system in Leptos has successfully supported existing design patterns, though there are a few areas where further enhancements would be beneficial.
 
