@@ -7,7 +7,7 @@ use leptos::prelude::*;
 use leptos_typed_fallback_show::TypedFallbackShow;
 
 //////////////////////////
-//  1. Examples Module  //
+// 1. Examples Module  //
 //////////////////////////
 
 pub mod examples {
@@ -366,10 +366,77 @@ pub mod examples {
             </div>
         }
     }
+
+    //----------------------------------------
+    // I) Deep Attribute Nesting Stress Test
+    //----------------------------------------
+
+    #[component]
+    #[allow(non_snake_case)]
+    pub fn RootDeepAttributeNesting() -> impl IntoView {
+        #[component]
+        #[allow(non_snake_case)]
+        fn NestedComponent(
+            #[prop(into, optional, default = 0.into())] 
+            level: MaybeProp<i32>,
+            #[prop(into)] 
+            max: i32
+        ) -> impl IntoView {
+            let current_level = level.get().unwrap_or(0);
+    
+            let background_color = match current_level % 6 {
+                0 => "#fafaff",
+                1 => "#fffaf0",
+                2 => "#f5fff5",
+                3 => "#f9f9ff",
+                4 => "#fdf5f5",
+                _ => "#f5ffff",
+            };
+    
+            let padding = 4 + current_level * 1;
+            let margin = 2 + current_level * 1;
+            let style = format!("padding: {}px 0; margin: {}px 0; background-color: {}; border-radius: 4px",
+                padding, margin, background_color);
+    
+            if current_level >= max {
+                view! {
+                    <div
+                        style=format!("{}; border: 1px solid {}", style, background_color)
+                    >
+                        <strong>"Reached max nesting: "</strong>
+                        {current_level}
+                    </div>
+                }.into_any()
+            } else {
+                view! {
+                    <ComponentDoesNotPass attr:data-level-outer=current_level.to_string() attr:style=format!("{}; border: 1px dashed {}", style, background_color)>
+                        <div>
+                            <strong>"Level: "</strong>{current_level}
+                            <NestedComponent attr:data-level-inner=current_level.to_string() level={current_level + 1} max/>
+                        </div>
+                    </ComponentDoesNotPass>
+                }.into_any()
+            }
+        }
+    
+        view! {
+            <div style="font-family: Arial, sans-serif; padding: 10px;">
+                <h3>"Deep Attribute Nesting Stress Test"</h3>
+                <p>
+                    "This test recursively nests "
+                    <code>"ComponentPasses"</code>
+                    " up to many levels, each adding a unique "
+                    <code>"data-level"</code>
+                    " attribute."
+                </p>
+                <NestedComponent level=0 max=30/>
+            </div>
+        }
+    }
 }
 
 //////////////////////////
-//  2. Playground Root  //
+// 2. Playground Root  //
 //////////////////////////
 
 #[component]
@@ -568,12 +635,21 @@ button {
                 <code>"<div>"</code>
                 " while still letting users apply their own attributes."
             </p>
+
+            <hr/>
+
+            <h2>"10) Deep Attribute Nesting Stress Test"</h2>
+            <examples::RootDeepAttributeNesting/>
+            <p>
+                "This test nests <ComponentPasses> 100 times, each adding a unique attribute.
+                If the compiler fails with the previous issue, it will not compile or will take excessively long."
+            </p>
         </div>
     }
 }
 
 //////////////////////////
-//  3. Main Entry Point //
+// 3. Main Entry Point //
 //////////////////////////
 
 pub fn main() {

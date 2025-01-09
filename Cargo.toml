@@ -7,3 +7,6 @@ edition = "2021"
 leptos = { version = "0.7.3", features = ["csr", "nightly" ]}
 leptos-typed-fallback-show = "0.0.3"
 console_error_panic_hook = "0.1.7"
+
+[patch.crates-io]
+leptos = { git = "https://github.com/geoffreygarrett/leptos", rev = "3af01be8c4ea47e5e62078bdc0e0694bd529303f" }
